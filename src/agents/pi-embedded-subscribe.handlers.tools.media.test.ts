@@ -273,6 +273,35 @@ describe("handleToolExecutionEnd media emission", () => {
     expect(ctx.state.pendingToolMediaUrls).toEqual([]);
   });
 
+  it("suppresses structured media when verbose is full and tool errors", async () => {
+    const ctx = createMockContext({ shouldEmitToolOutput: true, onToolResult: vi.fn() });
+
+    await handleToolExecutionEnd(ctx, {
+      type: "tool_execution_end",
+      toolName: "tts",
+      toolCallId: "tc-1",
+      isError: true,
+      result: {
+        content: [{ type: "text", text: "Generated audio reply." }],
+        details: {
+          media: {
+            mediaUrl: "/tmp/reply.opus",
+            audioAsVoice: true,
+          },
+        },
+      },
+    });
+
+    const emitToolOutput = ctx.emitToolOutput as ReturnType<typeof vi.fn>;
+    expect(emitToolOutput).toHaveBeenCalled();
+    const [toolName, _meta, outputText, outputResult] = emitToolOutput.mock.calls[0] ?? [];
+    expect(toolName).toBe("tts");
+    expect(outputText).toBe("Generated audio reply.");
+    expect(outputResult).toBeUndefined();
+    expect(ctx.state.pendingToolMediaUrls).toEqual([]);
+    expect(ctx.state.pendingToolAudioAsVoice).toBe(false);
+  });
+
   it("does NOT emit when tool result has no media", async () => {
     const onToolResult = vi.fn();
     const ctx = createMockContext({ shouldEmitToolOutput: false, onToolResult });

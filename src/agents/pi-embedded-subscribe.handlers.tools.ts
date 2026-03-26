@@ -292,7 +292,8 @@ async function emitToolResultOutput(params: {
   if (ctx.shouldEmitToolOutput()) {
     const outputText = extractToolResultText(sanitizedResult);
     if (outputText && ctx.params.onToolResult) {
-      ctx.emitToolOutput(toolName, meta, outputText, result);
+      const outputResult = isToolError ? undefined : result;
+      ctx.emitToolOutput(toolName, meta, outputText, outputResult);
       // In verbose/full mode, emitToolOutput handles media delivery.
       // Do not also queue pending media to avoid duplicate sends.
       return;
