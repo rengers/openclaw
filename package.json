@@ -1,6 +1,6 @@
 {
   "name": "openclaw",
-  "version": "2026.3.24",
+  "version": "2026.3.25",
   "description": "Multi-channel AI gateway with extensible messaging integrations",
   "keywords": [],
   "homepage": "https://github.com/openclaw/openclaw#readme",
@@ -188,6 +188,10 @@
     "./plugin-sdk/cli-runtime": {
       "types": "./dist/plugin-sdk/cli-runtime.d.ts",
       "default": "./dist/plugin-sdk/cli-runtime.js"
+    },
+    "./plugin-sdk/cli-backend": {
+      "types": "./dist/plugin-sdk/cli-backend.d.ts",
+      "default": "./dist/plugin-sdk/cli-backend.js"
     },
     "./plugin-sdk/hook-runtime": {
       "types": "./dist/plugin-sdk/hook-runtime.d.ts",
@@ -540,10 +544,6 @@
     "./plugin-sdk/twitch": {
       "types": "./dist/plugin-sdk/twitch.d.ts",
       "default": "./dist/plugin-sdk/twitch.js"
-    },
-    "./plugin-sdk/video-generation": {
-      "types": "./dist/plugin-sdk/video-generation.d.ts",
-      "default": "./dist/plugin-sdk/video-generation.js"
     },
     "./plugin-sdk/webhook-ingress": {
       "types": "./dist/plugin-sdk/webhook-ingress.d.ts",
